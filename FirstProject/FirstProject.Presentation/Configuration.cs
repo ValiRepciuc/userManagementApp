@@ -18,8 +18,14 @@ public static class Configuration
     {
        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-        builder.Services.AddDbContext<AppDbContext>(options =>
+        if (string.IsNullOrWhiteSpace(connectionString))
+        {
+            connectionString = configuration.GetConnectionString("DefaultConnection");
+        }
+
+        services.AddDbContext<DatabaseContext>(options =>
             options.UseNpgsql(connectionString));
+
 
 
     return services;
