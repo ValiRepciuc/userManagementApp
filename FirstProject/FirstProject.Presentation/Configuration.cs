@@ -43,7 +43,9 @@ public static class Configuration
         services
             .AddScoped<IUnitOfWork, UnitOfWork>()
             .AddScoped<IUserRepository, UserRepository>()
-            .AddScoped<IUserService, UserService>();
+            .AddScoped<IUserService, UserService>()
+            .AddScoped<IUserPermissionsRepository, UserPermissionsRepository>()
+            .AddScoped<IPermissionsService, PermissionsService>();
 
             
         

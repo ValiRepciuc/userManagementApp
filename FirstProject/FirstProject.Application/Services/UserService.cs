@@ -46,6 +46,11 @@ public class UserService : BaseService, IUserService
             throw new UserUnderageException();
         }
 
+        if (AgeHelper.calculateAge(user.birthDate) > 75)
+        {
+            throw new UserOverAgeException();
+        }
+
         if (!PhoneHelper.IsValidPhone(user.phone))
         {
             throw new PhoneNotValidException(createUserDto.phone);

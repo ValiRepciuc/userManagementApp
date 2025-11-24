@@ -9,11 +9,13 @@ public class UnitOfWork : IUnitOfWork
     private readonly DatabaseContext _context;
 
     public IUserRepository User { get; }
+    public IUserPermissionsRepository UserPermissions { get; }
 
     public UnitOfWork(DatabaseContext context)
     {
         _context = context;
         User = new UserRepository(context);
+        UserPermissions = new UserPermissionsRepository(context);
     }
 
     public async Task<bool> SaveChangesAsync()

@@ -12,10 +12,20 @@ public class DatabaseContext : DbContext
     }
     
     public DbSet<User> Users => Set<User>();
+    public DbSet<Permissions> UserPermissions => Set<Permissions>();
     
     protected override void OnModelCreating(ModelBuilder builder)
     {
         base.OnModelCreating(builder);
+
+        builder.Entity<User>(entity =>
+        {
+            entity.HasMany(u => u.Permissions)
+                .WithOne(p => p.User)
+                .HasForeignKey(p => p.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
         
         builder.ApplyConfigurationsFromAssembly(typeof(DatabaseContext).Assembly);
         

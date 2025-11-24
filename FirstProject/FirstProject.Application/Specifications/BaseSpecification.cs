@@ -5,7 +5,7 @@ namespace FirstProject.Application.Specifications;
 
 public abstract class BaseSpecification<T> : ISpecification<T>
 {
-    public Expression<Func<T, bool>> Criteria { get; }
+    public Expression<Func<T, bool>> Criteria { get; set; }
 
     protected BaseSpecification(Expression<Func<T, bool>> criteria)
     {
