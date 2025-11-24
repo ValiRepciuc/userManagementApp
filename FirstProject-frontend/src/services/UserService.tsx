@@ -2,7 +2,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { parseApiError } from "../utils/parseApiError";
 
-const API_URL = "https://usermanagementapp-backend.onrender.com" || "http://localhost:5201";
+const API_URL = "https://usermanagementapp-backend.onrender.com";
 
 export const getAllUsers = async () => {
   try {
