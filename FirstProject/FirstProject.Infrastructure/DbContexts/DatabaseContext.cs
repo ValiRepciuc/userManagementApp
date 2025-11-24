@@ -2,6 +2,7 @@ using System.Linq.Expressions;
 using FirstProject.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace FirstProject.Infrastructure.DbContexts;
 

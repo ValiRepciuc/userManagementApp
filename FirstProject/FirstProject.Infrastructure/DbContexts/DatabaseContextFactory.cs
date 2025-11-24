@@ -2,6 +2,7 @@ using FirstProject.Infrastructure.DbContexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
 using Microsoft.Extensions.Configuration;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Domain.Database;
 
@@ -17,7 +18,7 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContex
         var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
         var connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
         
-        optionsBuilder.UseSqlServer(connectionString);
+        optionsBuilder.UseNpgsql(connectionString);
         
         return new DatabaseContext(optionsBuilder.Options);
     }

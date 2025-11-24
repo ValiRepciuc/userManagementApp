@@ -8,6 +8,7 @@ using Infrastructure.Exceptions;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using Npgsql.EntityFrameworkCore.PostgreSQL;
 
 namespace Presentation;
 
@@ -18,7 +19,7 @@ public static class Configuration
         services.AddDbContext<DatabaseContext>(options =>
         {
             //Configurare connectionstring pt bd
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            options.UseNpgsql(configuration.GetConnectionString("DefaultConnection"));
         });
         return services;
     }
