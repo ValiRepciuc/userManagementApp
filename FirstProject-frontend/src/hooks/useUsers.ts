@@ -13,6 +13,7 @@ import { toast } from "react-toastify";
 import { parseApiError } from "../utils/parseApiError";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
+const BASE_URL = API_URL.replace(/\/+$/, "");
 
 export const useUsersGetAll = () => {
   const [users, setUsers] = useState<User[]>([]);
@@ -100,12 +101,11 @@ export const useCreateUser = (refetch: () => void) => {
         const formData = new FormData();
         formData.append("avatar", avatarFile);
 
-        const upload = await axios.post(
-          `${API_URL}api/user/upload-avatar`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
-
+       const upload = await axios.post(
+  `${BASE_URL}/api/user/upload-avatar`,
+  formData,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
         uploadedFileName = upload.data.fileName;
       }
 
@@ -154,10 +154,10 @@ export const useUpdateUser = (id: number, refetch: () => void) => {
         formData.append("avatar", avatar);
 
         const upload = await axios.post(
-          `${API_URL}api/user/upload-avatar`,
-          formData,
-          { headers: { "Content-Type": "multipart/form-data" } }
-        );
+  `${BASE_URL}/api/user/upload-avatar`,
+  formData,
+  { headers: { "Content-Type": "multipart/form-data" } }
+);
 
         avatarFileName = upload.data.fileName;
       } else {
