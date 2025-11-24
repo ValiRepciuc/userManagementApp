@@ -16,17 +16,11 @@ public static class Configuration
 {
     public static IServiceCollection AddDatabaseContext(this IServiceCollection services, IConfiguration configuration)
     {
-        var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
+       var connectionString = Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
-    if (string.IsNullOrEmpty(connectionString))
-    {
-        connectionString = configuration.GetConnectionString("DefaultConnection");
-    }
+        builder.Services.AddDbContext<AppDbContext>(options =>
+            options.UseNpgsql(connectionString));
 
-    services.AddDbContext<DatabaseContext>(options =>
-    {
-        options.UseNpgsql(connectionString);
-    });
 
     return services;
     }
