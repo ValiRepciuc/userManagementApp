@@ -12,5 +12,8 @@ WORKDIR /app
 
 COPY --from=build /out .
 
+# ✅ creează folderul pentru upload-uri/avatars
+RUN mkdir -p /app/wwwroot/avatars
+
 EXPOSE 8080
 ENTRYPOINT ["dotnet", "FirstProject.Presentation.dll"]
