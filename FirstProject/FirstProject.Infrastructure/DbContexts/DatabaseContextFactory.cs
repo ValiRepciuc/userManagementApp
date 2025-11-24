@@ -16,7 +16,7 @@ public class DatabaseContextFactory : IDesignTimeDbContextFactory<DatabaseContex
             .Build();
 
         var optionsBuilder = new DbContextOptionsBuilder<DatabaseContext>();
-        var connectionString = configuration.GetConnectionString("DefaultConnection") ?? string.Empty;
+        var connectionString = configuration.GetConnectionString("CONNECTION_STRING") ?? string.Empty;
         
         optionsBuilder.UseNpgsql(connectionString);
         
