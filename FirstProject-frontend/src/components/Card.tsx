@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import MenuDropdown from "./MenuDropdown";
 import type { User } from "../types/User";
+import { getAvatarUrl } from "../services/api";
 
 interface CradProps {
   id: number;
@@ -48,7 +49,7 @@ const Card = ({
       <div className="flex items-center gap-4 mb-6">
         {avatar ? (
           <img
-            src={`http://localhost:5201/avatars/${avatar}`}
+            src={getAvatarUrl(avatar)}
             className="w-16 h-16 rounded-full object-cover"
             alt="avatar"
           />

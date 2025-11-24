@@ -8,7 +8,7 @@ import {
 } from "../services/UserService";
 import { formatDate, normalizePhone } from "../utils/formatters";
 import type { User } from "../types/User";
-import axios from "axios";
+import api from "../services/api";
 import { toast } from "react-toastify";
 import { parseApiError } from "../utils/parseApiError";
 
@@ -98,8 +98,8 @@ export const useCreateUser = (refetch: () => void) => {
         const formData = new FormData();
         formData.append("avatar", avatarFile);
 
-        const upload = await axios.post(
-          "http://localhost:5201/api/user/upload-avatar",
+        const upload = await api.post(
+          "/api/user/upload-avatar",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -151,8 +151,8 @@ export const useUpdateUser = (id: number, refetch: () => void) => {
         const formData = new FormData();
         formData.append("avatar", avatar);
 
-        const upload = await axios.post(
-          "http://localhost:5201/api/user/upload-avatar",
+        const upload = await api.post(
+          "/api/user/upload-avatar",
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

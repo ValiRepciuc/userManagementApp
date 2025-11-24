@@ -1,6 +1,4 @@
-import axios from "axios";
-
-const API = "http://localhost:5201/api/userSpec/search";
+import api from "./api";
 
 export const getUsersBySpecification = async (params: {
   search?: string;
@@ -8,6 +6,6 @@ export const getUsersBySpecification = async (params: {
   sort?: string;
   exactAge?: number;
 }) => {
-  const response = await axios.get(API, { params });
+  const response = await api.get("/api/userSpec/search", { params });
   return response.data;
 };

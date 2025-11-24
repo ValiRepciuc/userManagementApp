@@ -1,6 +1,7 @@
 import { motion } from "framer-motion";
 import ModalDropdown from "./MenuDropdown";
 import type { User } from "../types/User";
+import { getAvatarUrl } from "../services/api";
 
 interface ListRowProps {
   id: number;
@@ -34,7 +35,7 @@ const ListRow = ({
       <div className="flex items-center gap-4 w-72">
         {avatar ? (
           <img
-            src={`http://localhost:5201/avatars/${avatar}`}
+            src={getAvatarUrl(avatar)}
             className="w-12 h-12 rounded-full object-cover"
             alt="avatar"
           />
