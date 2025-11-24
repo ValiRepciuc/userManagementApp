@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import ModalDropdown from "./MenuDropdown";
 import type { User } from "../types/User";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
+
 interface ListRowProps {
   id: number;
   name: string;
@@ -34,7 +36,7 @@ const ListRow = ({
       <div className="flex items-center gap-4 w-72">
         {avatar ? (
           <img
-            src={`http://localhost:5201/avatars/${avatar}`}
+            src={`${API_URL}/avatars/${avatar}`}
             className="w-12 h-12 rounded-full object-cover"
             alt="avatar"
           />

@@ -2,9 +2,11 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { parseApiError } from "../utils/parseApiError";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
+
 export const getAllUsers = async () => {
   try {
-    const response = await axios.get("http://localhost:5201/api/user");
+    const response = await axios.get(`${API_URL}/api/user`);
     return response.data;
   } catch (error) {
     console.error("Error fetching users:", error);
@@ -14,7 +16,7 @@ export const getAllUsers = async () => {
 
 export const getUserById = async (id: number) => {
   try {
-    const response = await axios.get(`http://localhost:5201/api/user/${id}`);
+    const response = await axios.get(`${API_URL}/api/user/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching user with id ${id}:`, error);
@@ -30,7 +32,7 @@ export const postUser = async (
   birthDate: string
 ) => {
   try {
-    const response = await axios.post("http://localhost:5201/api/user", {
+    const response = await axios.post(`${API_URL}/api/user`, {
       name,
       email,
       phone,
@@ -53,7 +55,7 @@ export const putUser = async (
   birthDate: string
 ) => {
   try {
-    const response = await axios.put(`http://localhost:5201/api/user/${id}`, {
+    const response = await axios.put(`${API_URL}/api/user/${id}`, {
       name,
       email,
       phone,
@@ -70,7 +72,7 @@ export const putUser = async (
 
 export const deleteUser = async (id: number) => {
   try {
-    const response = await axios.delete(`http://localhost:5201/api/user/${id}`);
+    const response = await axios.delete(`${API_URL}/api/user/${id}`);
     toast.success("User deleted successfully");
     return response.data;
   } catch (error) {

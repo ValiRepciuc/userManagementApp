@@ -12,6 +12,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { parseApiError } from "../utils/parseApiError";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
+
 export const useUsersGetAll = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState<boolean>(false);
@@ -99,7 +101,7 @@ export const useCreateUser = (refetch: () => void) => {
         formData.append("avatar", avatarFile);
 
         const upload = await axios.post(
-          "http://localhost:5201/api/user/upload-avatar",
+          `${API_URL}/api/user/upload-avatar`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
@@ -152,7 +154,7 @@ export const useUpdateUser = (id: number, refetch: () => void) => {
         formData.append("avatar", avatar);
 
         const upload = await axios.post(
-          "http://localhost:5201/api/user/upload-avatar",
+          `${API_URL}/api/user/upload-avatar`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );

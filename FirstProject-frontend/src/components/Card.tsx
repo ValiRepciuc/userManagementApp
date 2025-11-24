@@ -2,6 +2,8 @@ import { motion } from "framer-motion";
 import MenuDropdown from "./MenuDropdown";
 import type { User } from "../types/User";
 
+const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
+
 interface CradProps {
   id: number;
   name: string;
@@ -48,7 +50,7 @@ const Card = ({
       <div className="flex items-center gap-4 mb-6">
         {avatar ? (
           <img
-            src={`http://localhost:5201/avatars/${avatar}`}
+            src={`${API_URL}/avatars/${avatar}`}
             className="w-16 h-16 rounded-full object-cover"
             alt="avatar"
           />
