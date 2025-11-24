@@ -16,7 +16,7 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173")
+        policy.WithOrigins("http://localhost:5173", "https://user-management-app-seven-drab.vercel.app/")
             .AllowAnyHeader()
             .AllowAnyMethod();
     });
@@ -55,3 +55,4 @@ app.UseCors("AllowFrontend");
 
 
 await app.RunAsync();
+
