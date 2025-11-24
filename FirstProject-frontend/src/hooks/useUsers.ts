@@ -101,7 +101,7 @@ export const useCreateUser = (refetch: () => void) => {
         formData.append("avatar", avatarFile);
 
         const upload = await axios.post(
-          `${API_URL}/api/user/upload-avatar`,
+          `${API_URL}api/user/upload-avatar`,
           formData,
           { headers: { "Content-Type": "multipart/form-data" } }
         );
