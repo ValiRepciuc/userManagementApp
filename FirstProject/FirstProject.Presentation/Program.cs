@@ -16,9 +16,12 @@ builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowFrontend", policy =>
     {
-        policy.WithOrigins("http://localhost:5173", "https://user-management-app-seven-drab.vercel.app/", "https://user-management-app-git-main-valentins-projects-5ce82bb8.vercel.app/")
-            .AllowAnyHeader()
-            .AllowAnyMethod();
+        policy.WithOrigins(
+    "http://localhost:5173",
+    "https://user-management-app-seven-drab.vercel.app",
+    "https://user-management-app-git-main-valentins-projects-5ce82bb8.vercel.app"
+).AllowAnyHeader()
+ .AllowAnyMethod();
     });
 });
 
@@ -46,15 +49,16 @@ app.UseStaticFiles(new StaticFileOptions
 });
 
 app.UseRouting();
+
+app.UseCors("AllowFrontend");
+
 app.UseAuthentication();
 app.UseAuthorization();
 app.UseExceptionHandlerMiddleware();
 app.MapControllers();
-app.UseCors("AllowFrontend");
-
-
 
 await app.RunAsync();
+
 
 
 
