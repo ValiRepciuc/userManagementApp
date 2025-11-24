@@ -119,10 +119,6 @@ export const useCreateUser = (refetch: () => void) => {
       setSuccess(true);
       return result;
     } catch (error: any) {
-      console.log("🔥 EROARE COMPLETĂ DE LA BACKEND:", error);
-      console.log("🔥 error.response:", error.response);
-      console.log("🔥 error.response.data:", error.response?.data);
-
       toast.error(parseApiError(error));
     } finally {
       setLoading(false);

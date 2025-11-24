@@ -32,10 +32,15 @@ const ListRow = ({
       className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-200"
     >
       <div className="flex items-center gap-4 w-72">
-        <img
-          src={`http://localhost:5201/avatars/${avatar}`}
-          className="w-12 h-12 rounded-full object-cover"
-        />
+        {avatar ? (
+          <img
+            src={`http://localhost:5201/avatars/${avatar}`}
+            className="w-12 h-12 rounded-full object-cover"
+            alt="avatar"
+          />
+        ) : (
+          <div className="w-12 h-12 rounded-full bg-purple-600"></div>
+        )}
         <div>
           <p className="font-semibold text-gray-900">{name}</p>
           <p className="text-gray-500 text-sm">{email}</p>

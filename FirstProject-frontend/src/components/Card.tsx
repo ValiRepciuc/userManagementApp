@@ -46,11 +46,15 @@ const Card = ({
         />
       </div>
       <div className="flex items-center gap-4 mb-6">
-        <img
-          src={`http://localhost:5201/avatars/${avatar}`}
-          className="w-16 h-16 rounded-full object-cover"
-          alt="avatar"
-        />
+        {avatar ? (
+          <img
+            src={`http://localhost:5201/avatars/${avatar}`}
+            className="w-16 h-16 rounded-full object-cover"
+            alt="avatar"
+          />
+        ) : (
+          <div className="w-16 h-16 rounded-full bg-purple-600"></div>
+        )}
         <div>
           <h3 className="text-lg font-semibold text-gray-900">{name}</h3>
           <p className="text-gray-500 text-sm">{email}</p>

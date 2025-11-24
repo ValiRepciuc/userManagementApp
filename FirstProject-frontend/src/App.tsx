@@ -7,20 +7,8 @@ import Modal from "./components/Modal";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useState } from "react";
-import { useCreateUser, useUsersGetAll, useUpdateUser } from "./hooks/useUsers";
-import {
-  useUsersOrderByAge,
-  useUsersOrderDescByAge,
-} from "./hooks/SortedUsers/useUserSortByAge";
-import {
-  useUserOrderByName,
-  useUserOrderByNameBySpec,
-  useUserOrderDescByName,
-} from "./hooks/SortedUsers/useUserSortByName";
-import {
-  useUserOrderByCreated,
-  useUserOrderDescByCreated,
-} from "./hooks/SortedUsers/useUserSortByCreated";
+import { useCreateUser, useUpdateUser } from "./hooks/useUsers";
+import { useUserSpecification } from "./hooks/useUserSpecification";
 import type { User } from "./types/User";
 import { formatUsers } from "./utils/formatUsers";
 
@@ -31,36 +19,26 @@ function App() {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
-  const { users, refetch } = useUsersGetAll();
-  console.log(
-    "Users avatar in App.tsx:",
-    users.map((u) => u.avatar)
-  );
-
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [birthDate, setBirthDate] = useState<string>("");
 
-  const [sortType, setSortType] = useState<string>("NONE");
+  const [sortType, setSortType] = useState<string | undefined>(undefined);
+  const [searchTerm, setSearchTerm] = useState<string>("");
 
-  const { sortNameUsers } = useUserOrderByName();
-  const { sortDescNameUsers } = useUserOrderDescByName();
-  const { sortAgeUsers } = useUsersOrderByAge();
-  const { sortDescAgeUsers } = useUsersOrderDescByAge();
-  const { sortDateUsers } = useUserOrderByCreated();
-  const { sortDescDateUsers } = useUserOrderDescByCreated();
+  const { users, refetch } = useUserSpecification({
+    search: searchTerm,
+    filterBy: searchTerm ? "name" : undefined,
+    sort: sortType,
+  });
+
+  console.log(
+    "Users avatar in App.tsx:",
+    users.map((u) => u.avatar)
+  );
 
   let shownUsers: User[] = users;
-
-  if (sortType === "NAME_ASC") shownUsers = sortNameUsers;
-  if (sortType === "NAME_DESC") shownUsers = sortDescNameUsers;
-
-  if (sortType === "AGE_ASC") shownUsers = sortAgeUsers;
-  if (sortType === "AGE_DESC") shownUsers = sortDescAgeUsers;
-
-  if (sortType === "DATE_ASC") shownUsers = sortDateUsers;
-  if (sortType === "DATE_DESC") shownUsers = sortDescDateUsers;
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
     setName(e.target.value);
@@ -101,13 +79,6 @@ function App() {
 
   const { createUser } = useCreateUser(refetch);
   const { updateUser } = useUpdateUser(selectedUser?.id, refetch);
-  const [searchTerm, setSearchTerm] = useState<string>("");
-
-  const { sortedUsers: searchedUsers } = useUserOrderByNameBySpec(searchTerm);
-
-  if (searchTerm) {
-    shownUsers = searchedUsers;
-  }
 
   shownUsers = formatUsers(shownUsers);
 
@@ -119,12 +90,12 @@ function App() {
         <Actions
           handleLayoutToggle={setLayout}
           handleAddUserClick={handleAddUserClick}
-          orderByNameAsc={() => setSortType("NAME_ASC")}
-          orderByNameDesc={() => setSortType("NAME_DESC")}
-          orderByAgeAsc={() => setSortType("AGE_ASC")}
-          orderByAgeDesc={() => setSortType("AGE_DESC")}
-          orderByDateAsc={() => setSortType("DATE_ASC")}
-          orderByDateDesc={() => setSortType("DATE_DESC")}
+          orderByNameAsc={() => setSortType("name_asc")}
+          orderByNameDesc={() => setSortType("name_desc")}
+          orderByAgeAsc={() => setSortType("age_asc")}
+          orderByAgeDesc={() => setSortType("age_desc")}
+          orderByDateAsc={() => setSortType("created_asc")}
+          orderByDateDesc={() => setSortType("created_desc")}
         />
 
         <main className="p-10 flex-1">

@@ -1,7 +1,7 @@
 import { motion } from "framer-motion";
 import { Grid, List } from "lucide-react";
 import FilterDropDown from "./FilterDropDown";
-import { useUsersGetAll } from "../hooks/useUsers";
+import { useUserSpecification } from "../hooks/useUserSpecification";
 
 const Actions = ({
   handleLayoutToggle,
@@ -22,7 +22,7 @@ const Actions = ({
   orderByDateAsc: () => void;
   orderByDateDesc: () => void;
 }) => {
-  const { users } = useUsersGetAll();
+  const { users } = useUserSpecification({});
 
   return (
     <motion.div
