@@ -24,7 +24,6 @@ const Actions = ({
   orderByDateDesc: () => void;
   totalUsers: number;
 }) => {
-  const { users } = useUserSpecification({});
 
   return (
     <motion.div
@@ -35,7 +34,7 @@ const Actions = ({
     >
       <p className="text-lg font-medium text-gray-700">
         Total users:{" "}
-        <span className="text-purple-600 font-semibold">{users.length}</span>
+        <span className="text-purple-600 font-semibold">{totalUsers}</span>
       </p>
 
       <div className="flex items-center gap-4">
