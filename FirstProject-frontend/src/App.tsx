@@ -51,8 +51,16 @@ function App() {
   };
 
   const handleNumber = (text: string) => {
-    const numericValue = text.replace(/[^0-9]/g, "");
-    setPhone(numericValue);
+    // Permite doar cifre și un singur '+'
+    let cleaned = text.replace(/[^0-9+]/g, "");
+    // Asigură că există maxim un '+'
+    const plusCount = (cleaned.match(/\+/g) || []).length;
+    if (plusCount > 1) {
+      cleaned = cleaned.replace(/\+/g, (match, offset) =>
+        offset === cleaned.indexOf("+") ? match : ""
+      );
+    }
+    setPhone(cleaned);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -213,13 +221,18 @@ function App() {
                 ) {
                   return;
                 }
-                if (!/^[0-9]$/.test(e.key)) {
-                  e.preventDefault();
+                if (/^[0-9]$/.test(e.key)) {
+                  return;
                 }
+                if (e.key === "+" && !phone.includes("+")) {
+                  return;
+                }
+
+                e.preventDefault();
               }}
               value={phone}
               inputMode="numeric"
-              pattern="[0-9]*"
+              pattern="[0-9+]*"
               className="border px-3 py-2 rounded-md"
               placeholder="Phone number"
               required
