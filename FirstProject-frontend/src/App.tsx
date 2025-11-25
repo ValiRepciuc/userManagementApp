@@ -190,11 +190,30 @@ function App() {
             />
             <label>Phone:</label>
             <input
-              type="number"
+              type="tel"
               defaultValue={modalMode === "edit" ? selectedUser?.phone : ""}
               onChange={(e) => handleNumber(e.target.value)}
+              onKeyDown={(e) => {
+                if (
+                  [
+                    "Backspace",
+                    "Delete",
+                    "Tab",
+                    "Escape",
+                    "Enter",
+                    "ArrowLeft",
+                    "ArrowRight",
+                  ].includes(e.key)
+                ) {
+                  return;
+                }
+                if (!/^[0-9]$/.test(e.key)) {
+                  e.preventDefault();
+                }
+              }}
               value={phone}
               inputMode="numeric"
+              pattern="[0-9]*"
               className="border px-3 py-2 rounded-md"
               placeholder="Phone number"
               required
