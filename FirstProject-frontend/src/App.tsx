@@ -96,6 +96,7 @@ function App() {
           orderByAgeDesc={() => setSortType("age_desc")}
           orderByDateAsc={() => setSortType("created_asc")}
           orderByDateDesc={() => setSortType("created_desc")}
+          totalUsers={users.length}
         />
 
         <main className="p-10 flex-1">
