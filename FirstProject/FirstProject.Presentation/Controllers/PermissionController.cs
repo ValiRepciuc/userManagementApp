@@ -37,7 +37,7 @@ public class PermissionController : ControllerBase
     }
 
     [HttpPost]
-    [Route("userId:int")]
+    [Route("user/{userId:int}")]
     public async Task<IActionResult> CreateAsync([FromBody] CreatePermissionsDTO permission, int userId)
     {
         var createdPermission = await _permissionsService.CreateAsync(permission, userId);
