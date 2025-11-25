@@ -11,12 +11,15 @@ import { useCreateUser, useUpdateUser } from "./hooks/useUsers";
 import { useUserSpecification } from "./hooks/useUserSpecification";
 import type { User } from "./types/User";
 import { formatUsers } from "./utils/formatUsers";
+import PermissionsModal from "./components/PermissionsModal";
+import { useUserPermissions } from "./hooks/useUserPermissions";
 
 function App() {
   const [layout, setLayout] = useState<"grid" | "list">("grid");
   const [modalMode, setModalMode] = useState<"add" | "edit">("add");
   const [selectedUser, setSelectedUser] = useState<any>(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [isPermissionsOpen, setIsPermissionsOpen] = useState<boolean>(false);
   const [avatarFile, setAvatarFile] = useState<File | null>(null);
 
   const [name, setName] = useState<string>("");
@@ -33,11 +36,6 @@ function App() {
     sort: sortType,
   });
 
-  console.log(
-    "Users avatar in App.tsx:",
-    users.map((u) => u.avatar)
-  );
-
   let shownUsers: User[] = users;
 
   const handleChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,12 +45,14 @@ function App() {
   const handleChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
-  const handleChangePhone = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPhone(e.target.value);
-  };
 
   const handleChangeBirthDate = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBirthDate(e.target.value);
+  };
+
+  const handleNumber = (text: string) => {
+    const numericValue = text.replace(/[^0-9]/g, "");
+    setPhone(numericValue);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -77,6 +77,14 @@ function App() {
     setPhone(user.phone);
   };
 
+  const handlePermissionsOpen = (user: User) => {
+    setSelectedUser(user);
+    setIsPermissionsOpen(true);
+  };
+
+  const { permissions, refetch: refetchPermissions } = useUserPermissions(
+    selectedUser?.id || 0
+  );
   const { createUser } = useCreateUser(refetch);
   const { updateUser } = useUpdateUser(selectedUser?.id, refetch);
 
@@ -107,6 +115,7 @@ function App() {
                   handleModalOpen={handleModalOpen}
                   key={i}
                   {...u}
+                  handlePermissionsOpen={handlePermissionsOpen}
                   refetch={refetch}
                 />
               ))}
@@ -126,6 +135,7 @@ function App() {
                   key={i}
                   {...u}
                   refetch={refetch}
+                  handlePermissionsOpen={handlePermissionsOpen}
                 />
               ))}
             </div>
@@ -146,13 +156,7 @@ function App() {
                 createUser(name, email, phone, avatarFile, birthDate);
                 setIsModalOpen(false);
               } else {
-                updateUser(
-                  name,
-                  email,
-                  phone,
-                  avatarFile,
-                  birthDate
-                );
+                updateUser(name, email, phone, avatarFile, birthDate);
                 setIsModalOpen(false);
               }
             }}
@@ -164,6 +168,7 @@ function App() {
               defaultValue={modalMode === "edit" ? selectedUser?.name : ""}
               onChange={handleChangeName}
               className="border px-3 py-2 rounded-md"
+              placeholder="John Smith"
               required
             />
             <label>Email:</label>
@@ -172,6 +177,7 @@ function App() {
               value={email}
               onChange={handleChangeEmail}
               className="border px-3 py-2 rounded-md"
+              placeholder="example@gmail.com"
               required
             />
             <label>Date of birth:</label>
@@ -184,11 +190,13 @@ function App() {
             />
             <label>Phone:</label>
             <input
-              type="tel"
-              value={phone}
+              type="number"
               defaultValue={modalMode === "edit" ? selectedUser?.phone : ""}
-              onChange={handleChangePhone}
+              onChange={(e) => handleNumber(e.target.value)}
+              value={phone}
+              inputMode="numeric"
               className="border px-3 py-2 rounded-md"
+              placeholder="Phone number"
               required
             />
             <label>Avatar:</label>
@@ -207,6 +215,14 @@ function App() {
             </button>
           </form>
         </Modal>
+
+        <PermissionsModal
+          isOpen={isPermissionsOpen}
+          onClose={() => setIsPermissionsOpen(false)}
+          userPermissions={permissions}
+          user={selectedUser}
+          refetchPermissions={refetchPermissions}
+        />
         <Footer />
       </div>
     </>
