@@ -12,6 +12,7 @@ const Actions = ({
   orderByAgeDesc,
   orderByDateAsc,
   orderByDateDesc,
+  totalUsers,
 }: {
   handleLayoutToggle: (layout: "grid" | "list") => void;
   handleAddUserClick: () => void;
@@ -21,6 +22,7 @@ const Actions = ({
   orderByAgeDesc: () => void;
   orderByDateAsc: () => void;
   orderByDateDesc: () => void;
+  totalUsers: number;
 }) => {
   const { users } = useUserSpecification({});
 
