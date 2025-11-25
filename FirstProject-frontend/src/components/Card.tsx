@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import MenuDropdown from "./MenuDropdown";
+import type { MenuDropdownRef } from "./MenuDropdown";
 import type { User } from "../types/User";
+import { useRef } from "react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
 
@@ -14,6 +16,7 @@ interface CradProps {
   avatar?: string;
 
   handleModalOpen: (user: User) => void;
+  handlePermissionsOpen: (user: User) => void;
   refetch: () => void;
 }
 
@@ -26,8 +29,16 @@ const Card = ({
   createdAt,
   avatar,
   handleModalOpen,
+  handlePermissionsOpen,
   refetch,
 }: CradProps) => {
+  const menuRef = useRef<MenuDropdownRef>(null);
+
+  const handleCardClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    menuRef.current?.open();
+  };
+
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -37,14 +48,17 @@ const Card = ({
         boxShadow: "0px 12px 35px rgba(0,0,0,0.12)",
       }}
       transition={{ duration: 0.3 }}
-      className="bg-white rounded-2xl p-6 w-full max-w-md shadow-md"
+      onClick={handleCardClick}
+      className="bg-white rounded-2xl p-6 w-full max-w-md shadow-md cursor-pointer"
     >
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-xl font-bold text-gray-900">User Info</h2>
         <MenuDropdown
+          ref={menuRef}
           handleModalOpen={handleModalOpen}
           user={{ id, name, email, phone, age, createdAt, avatar }}
           refetch={refetch}
+          handlePermissionsOpen={handlePermissionsOpen}
         />
       </div>
       <div className="flex items-center gap-4 mb-6">
