@@ -2,19 +2,29 @@ import { EllipsisVertical } from "lucide-react";
 import { Menu, MenuButton, MenuItem, MenuItems } from "@headlessui/react";
 import { useDeleteUser } from "../hooks/useUsers";
 import type { User } from "../types/User";
+import { forwardRef, useImperativeHandle, useRef } from "react";
 
-export default function MenuDropdown({
-  handleModalOpen,
-  user,
-  refetch,
-}: {
-  handleModalOpen: (user: User) => void;
-  user?: User;
-  refetch: () => void;
-}) {
-  console.log("Rendering MenuDropdown with user:", user);
+export interface MenuDropdownRef {
+  open: () => void;
+}
 
+const MenuDropdown = forwardRef<
+  MenuDropdownRef,
+  {
+    handleModalOpen: (user: User) => void;
+    handlePermissionsOpen: (user: User) => void;
+    user?: User;
+    refetch: () => void;
+  }
+>(({ handleModalOpen, handlePermissionsOpen, user, refetch }, ref) => {
   const { deleteUserById } = useDeleteUser(user?.id || 0, refetch);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+
+  useImperativeHandle(ref, () => ({
+    open: () => {
+      buttonRef.current?.click();
+    },
+  }));
 
   const handleDelete = () => {
     if (user) {
@@ -25,6 +35,7 @@ export default function MenuDropdown({
   return (
     <Menu as="div" className="relative inline-block">
       <MenuButton
+        ref={buttonRef}
         className="
           inline-flex items-center justify-center 
           rounded-lg px-2 py-2 
@@ -72,6 +83,20 @@ export default function MenuDropdown({
             {({ active }) => (
               <button
                 className={`
+                  block w-full text-left px-4 py-2 text-sm
+                  ${active ? "bg-gray-100" : ""}
+                `}
+                onClick={() => user && handlePermissionsOpen(user)}
+              >
+                Permissions
+              </button>
+            )}
+          </MenuItem>
+
+          <MenuItem>
+            {({ active }) => (
+              <button
+                className={`
                   block w-full text-left px-4 py-2 text-sm rounded-b-lg
                   text-purple-600
                   ${active ? "bg-purple-100" : ""}
@@ -86,4 +111,8 @@ export default function MenuDropdown({
       </MenuItems>
     </Menu>
   );
-}
+});
+
+MenuDropdown.displayName = "MenuDropdown";
+
+export default MenuDropdown;
