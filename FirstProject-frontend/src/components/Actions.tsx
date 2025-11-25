@@ -1,7 +1,6 @@
 import { motion } from "framer-motion";
 import { Grid, List } from "lucide-react";
 import FilterDropDown from "./FilterDropDown";
-import { useUserSpecification } from "../hooks/useUserSpecification";
 
 const Actions = ({
   handleLayoutToggle,
