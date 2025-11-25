@@ -160,9 +160,7 @@ export const useUpdateUser = (id: number, refetch: () => void) => {
 );
 
         avatarFileName = upload.data.fileName;
-      } else {
-        avatarFileName = avatar || "";
-      }
+      } 
 
       const result = await putUser(
         id,
