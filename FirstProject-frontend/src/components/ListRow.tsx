@@ -1,6 +1,8 @@
 import { motion } from "framer-motion";
 import ModalDropdown from "./MenuDropdown";
 import type { User } from "../types/User";
+import type { MenuDropdownRef } from "./MenuDropdown";
+import { useRef } from "react";
 
 const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
 
@@ -14,6 +16,7 @@ interface ListRowProps {
   avatar?: string;
 
   handleModalOpen: (user: User) => void;
+  handlePermissionsOpen: (user: User) => void;
   refetch: () => void;
 }
 
@@ -26,12 +29,21 @@ const ListRow = ({
   createdAt,
   avatar,
   handleModalOpen,
+  handlePermissionsOpen,
   refetch,
 }: ListRowProps) => {
+  const menuRef = useRef<MenuDropdownRef>(null);
+
+  const handleRowClick = (e: React.MouseEvent) => {
+    e.stopPropagation();
+    menuRef.current?.open();
+  };
+
   return (
     <motion.div
-      whileHover={{ scale: 1.01, backgroundColor: "#f8f8f8" }}
-      className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-200"
+      whileHover={{ scale: 1.0, backgroundColor: "#f8f8f8" }}
+      className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border border-gray-200 hover:cursor-pointer"
+      onClick={handleRowClick}
     >
       <div className="flex items-center gap-4 w-72">
         {avatar ? (
@@ -54,9 +66,11 @@ const ListRow = ({
       <p className="text-gray-700">{createdAt}</p>
 
       <ModalDropdown
+        ref={menuRef}
         user={{ id, name, email, phone, age, createdAt, avatar }}
         handleModalOpen={handleModalOpen}
         refetch={refetch}
+        handlePermissionsOpen={handlePermissionsOpen}
       />
     </motion.div>
   );
