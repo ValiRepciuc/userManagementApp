@@ -5,7 +5,7 @@ const API_URL = import.meta.env.VITE_BACKEND_URL || "http://localhost:5201";
 
 export const userPermissions = async (id: number) => {
   try {
-    const response = await axios.get(`${API_URL}/api/permissions/user/${id}`);
+    const response = await axios.get(`${API_URL}api/permissions/user/${id}`);
     return response.data;
   } catch (error) {
     console.error(`Error fetching permissions for user with id ${id}:`, error);
@@ -18,7 +18,7 @@ export const postUserPermission = async (
   permissionName: string
 ) => {
   try {
-    const response = await axios.post(`${API_URL}/api/permissions/user/${id}`, {
+    const response = await axios.post(`${API_URL}api/permissions/user/${id}`, {
       permissionName,
     });
     return response.data;
@@ -34,7 +34,7 @@ export const postUserPermission = async (
 export const deleteUserPermission = async (permissionId: number) => {
   try {
     const response = await axios.delete(
-      `${API_URL}/api/permissions/${permissionId}`
+      `${API_URL}api/permissions/${permissionId}`
     );
     toast.success("Permission removed successfully");
     return response.data;
