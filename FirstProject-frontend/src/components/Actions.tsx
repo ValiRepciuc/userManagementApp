@@ -23,7 +23,6 @@ const Actions = ({
   orderByDateDesc: () => void;
   totalUsers: number;
 }) => {
-
   return (
     <motion.div
       initial={{ opacity: 0, y: -10 }}
@@ -53,7 +52,7 @@ const Actions = ({
           <List className="w-6 h-6 text-gray-700" />
         </motion.button>
 
-        <motion.button
+        <motion.div
           whileHover={{ scale: 1.05 }}
           className="px-6 py-3 rounded-md flex items-center gap-2"
         >
@@ -65,7 +64,7 @@ const Actions = ({
             orderByDateAsc={orderByDateAsc}
             orderByDateDesc={orderByDateDesc}
           />
-        </motion.button>
+        </motion.div>
 
         <motion.button
           whileHover={{ scale: 1.06 }}
