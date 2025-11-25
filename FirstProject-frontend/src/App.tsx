@@ -65,6 +65,12 @@ function App() {
     setIsModalOpen(true);
     setModalMode("add");
     setSelectedUser(null);
+
+    setName("");
+    setEmail("");
+    setPhone("");
+    setBirthDate("");
+    setAvatarFile(null);
   };
 
   const handleModalOpen = (user: User) => {
