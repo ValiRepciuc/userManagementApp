@@ -149,7 +149,7 @@ function App() {
                   name,
                   email,
                   phone,
-                  avatarFile ? avatarFile.name : selectedUser?.avatar,
+                  avatarFile,
                   birthDate
                 );
                 setIsModalOpen(false);
